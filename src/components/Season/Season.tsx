@@ -16,6 +16,7 @@ const Season: React.FC<SeasonProps> = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [champions, setChampions] = useState<ApiResponseSingleSeason | null>(null); // Initial state can be null
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  const [shouldOpenList, setShouldOpenList] = useState(false); // New state variable
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +34,7 @@ const Season: React.FC<SeasonProps> = (props) => {
   }, [props.data]); // Dependency array ensures fetch only on season change
 
   const handleItemClick = (year: number) => {
+    setShouldOpenList(!shouldOpenList);
     setSelectedYear((prevSelectedYear) => (prevSelectedYear === year ? null : year));
   };
 
@@ -42,8 +44,13 @@ const Season: React.FC<SeasonProps> = (props) => {
     let key:any =champions.MRData.StandingsTable.StandingsLists[0]
     round = key.round;
     champ = key.DriverStandings[0].Driver;
-    
+     
   }
+
+  const listProps = {
+    isOpen: shouldOpenList, // Pass isOpen prop to List component
+    inputValue: { input: round, year: props.data.index, winnerId: champ?.driverId },
+  };
 
   return (
     <div>
@@ -56,7 +63,7 @@ const Season: React.FC<SeasonProps> = (props) => {
         winner={champ}
         onClick={() => handleItemClick(props.data.index)}
       />
-{selectedYear === props.data.index && <List inputValue={{ input: round, year: props.data.index, winnerId: champ.driverId }} />}
+  {shouldOpenList && <List {...listProps} />}
     </div>
   );
 };
