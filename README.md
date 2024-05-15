@@ -68,3 +68,29 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+## Architecture:
+
+1. Component-Based Architecture:
+
+-Utlized Reacts component based architecture. Each piece of UI functionaly is encapsulate within a reusable component (Race, Season, Item etc)
+-This promotes modularity, maintainibilty and reusability
+
+2. Data Flow:
+
+-Seperated calls from components using a service for data encapsulation, Race and Season uses useEffect function to manage data fetching
+-Fetched data is stored in componenets state
+-Item recieves necessary props from parent component
+- example.service.ts used to encapsulate data access and business logic related to fetching and processing data from the ergast api, this seperation of concerns isolates data access from the componenets, promoting reuseability and testability.
+
+3. State Management: 
+
+-useState, isLoading, isWinner etc
+
+Possible Improvements:
+
+-As I'm very new to react there will likely be lots of improvements I dont yet see but a state management library like redux will most likely be a very good addition.
+-Robust error handling can be added
+-Unit tests can be added
+-Looked into a concept called virtual lists, this would only load the items on the view, and dynamically call the other items as you scroll down, this would allow larger lists to be avialable to users without a loss of user experience.
